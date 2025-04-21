@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        /* Added header background color */
+        .custom-header {
+            background-color: #82080c;
+        }
+    </style>
+    <title>User Profile</title>
+</head>
+<body>
+
+<header>
+    <div class="container-fluid custom-header">
+        <div class="py-2 row">
+            <div class="col-md">
+                <ul class="nav d-flex m-0 justify-content-center justify-content-md-start">
+                    <li class="nav-item">
+                        <a href="/user" class="nav-link" style="color:#FFFFFF;">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user/history" class="nav-link" style="color:#FFFFFF;">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user/inCharge" class="nav-link" style="color:#FFFFFF;">Duty In-Charge</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/leaveForm" class="nav-link" style="color:#FFFFFF;">Apply for Leave</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link" style="color:#FFFFFF;">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="mt-4">
+    <div class="container">
+        <div class="border rounded py-4 px-4 bg-light">
+            <div class="row justify-content-start align-items-start">
+                <div class="col col-md-6 my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Name</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.name %></div>
+                    </div>
+                </div>
+                <div class="col my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Gender</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.gender %></div>
+                    </div>
+                </div>
+                <div class="col col-md-6 my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Email</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.email %></div>
+                    </div>
+                </div>
+                <div class="col my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Mobile</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.mobile %></div>
+                    </div>
+                </div>
+                <div class="col col-md-6 my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Designation</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.designation %></div>
+                    </div>
+                </div>
+                <div class="col my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Department</div>
+                        <div class="info-group-value" style="white-space: nowrap"><%= user.department %></div>
+                    </div>
+                </div>
+                <div class="col col-md-6 my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Work Status</div>
+                        <div class="info-group-value" style="white-space: nowrap">
+                            <% if (user.isOnLeave) { %>On Leave<% } else { %>Working<% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col my-2"></div>
+                <div class="col col-md-6 my-2">
+                    <div class="info-group">
+                        <div class="info-group-title text-muted" style="white-space: nowrap">Leaves Left</div>
+                        <div class="info-group-value" style="white-space: nowrap">
+                            CL: <%= user.leavesLeft.cl %><br>
+                            EL: <%= user.leavesLeft.el %><br>
+                            HPL: <%= user.leavesLeft.hpl %><br>
+                            RH: <%= user.leavesLeft.rh %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<table class="content-table">
+    <tr>
+        <th>S.No.</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Leave Type</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    <% var i = 1 %>
+    <% leaves.forEach((e) => { %>
+        <tr class="table-row">
+            <td><%= i %></td>
+            <td><%= e.startTime.toUTCString().slice(5, 16) %></td>
+            <td><%= e.endTime.toUTCString().slice(5, 16) %></td>
+            <td><%= e.leaveType %></td>
+            <td><%= e.status %></td>
+            <td><button class="open-button" data-id="<%= e._id %>" data-toggle="modal" data-target="#leaveInfo">Details</button></td>
+            <% i = i + 1 %>
+        </tr>
+    <% }) %>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="leaveInfo" tabindex="-1" role="dialog" aria-labelledby="AddNewModel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Request Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <!-- Modal Content Here (kept same as you had) -->
+                    <!-- Fields like Name, Email, Mobile, etc. -->
+                    <!-- Form to cancel request -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-3.6.1.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#leaveInfo').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var _id = button.data('id')
+
+        const pen = <%- JSON.stringify(leaves) %>
+        const e = pen.find((x)=>x._id==_id)
+        const inc = <%- JSON.stringify(inCharge) %>
+
+        var modal = $(this)
+        modal.find('.modal-title').text("Request Details")
+        modal.find('#info-name span').text(e.name)
+        modal.find('#info-email span').text(e.email)
+        modal.find('#info-mobile span').text(e.mobile)
+        modal.find('#info-designation span').text(e.designation)
+        modal.find('#info-department span').text(e.department)
+        modal.find('#info-start-time span').text(inc[e._id].startDate)
+        modal.find('#info-end-time span').text(inc[e._id].endDate)
+        modal.find('#info-leave-type span').text(e.leaveType)
+        modal.find('#info-reason span').text(e.reason)
+        modal.find('#info-status span').text(e.status)
+        modal.find('#info-incharge span').text(inc[e._id].name)
+        modal.find('#info-accepted-by-incharge span').text(e.takenCharge ? 'Yes' : 'No')
+        modal.find('#info-approved-by-admin span').text(e.approvedByAdmin ? 'Yes' : 'No')
+        modal.find('#info-approved-by-midadmin span').text(e.approvedByMidadmin ? 'Yes' : 'No')
+        modal.find('#info-recommended-by span').text(e.status == 'pending' ? 'N/A' : e.recommendedBy)
+        modal.find('#info-address-during-leave span').text(e.addressDuringLeave)
+        modal.find('#info-form #id').attr("value", e._id)
+    })
+})
+</script>
+
+</body>
+</html>

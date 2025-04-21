@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Home</title>
+    <style>
+        body {
+            background-color: #7f0909 !important; /* Very light gray background */
+            font-family: 'Poppins', sans-serif;
+            color: #444;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        header {
+            background-color: white;
+            width: 95%;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px 0;
+        }
+
+        header .container-fluid {
+            padding: 0 20px;
+        }
+
+        header .nav-link {
+            color: #666 !important;
+        }
+
+        header .nav-link:hover {
+            color: #a73037 !important; /* A slightly softer primary color */
+        }
+
+        header .row.py-2 {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        header .row.d-flex {
+            align-items: center;
+        }
+
+        main {
+            background-color: #fff;
+            width: 95%;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .main-image-container {
+            width: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-image-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-height: 300px; /* Limit image height */
+        }
+
+        .leave-management-info {
+            text-align: center;
+            padding: 20px;
+            border-radius: 6px;
+            background-color: #f9e7e7; /* Very light red background */
+            border: 1px solid #e7bdbd; /* Light red border */
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .leave-management-info h1 {
+            color: #a73037; /* Softer primary color */
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+        .leave-management-info .btn {
+            margin: 8px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .leave-management-info .btn-outline-secondary {
+            border: 1px solid #a73037;
+            color: #a73037;
+            background-color: transparent;
+        }
+
+        .leave-management-info .btn-outline-secondary:hover {
+            background-color: rgba(167, 48, 55, 0.1);
+        }
+
+        .leave-management-info .btn-light {
+            background-color: #a73037;
+            color: white;
+            border: 1px solid #a73037;
+        }
+
+        .leave-management-info .btn-light:hover {
+            background-color: #8e282e;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 95%;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="py-2 row">
+                <div class="col-md">
+                    <ul class="nav d-flex m-0 justify-content-md-end justify-content-center">
+                        <li class="nav-item">
+                            <a href="https://mail.google.com/a/iiitl.ac.in" class="nav-link px-2" target="_blank">
+                                <i class="bi bi-envelope-fill" role="img" aria-label="Gmail"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.facebook.com/MyRavenshaw/" class="nav-link px-2" target="_blank">
+                                <i class="bi bi-facebook" role="img" aria-label="Facebook"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://in.linkedin.com/school/ravenshawuniversity/" class="nav-link px-2"
+                                target="_blank">
+                                <i class="bi bi-linkedin" role="img" aria-label="LinkedIn"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://x.com/ravenshaw150?lang=en" class="nav-link px-2" target="_blank">
+                                <i class="bi bi-twitter" role="img" aria-label="Twitter"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.instagram.com/ravenshawstatus/?hl=en" class="nav-link px-2"
+                                target="_blank">
+                                <i class="bi bi-instagram" role="img" aria-label="Instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid bg-white">
+            <div class="row d-flex flex-column flex-md-row py-2 align-items-center align-items-md-end">
+                <div class="col-8 col-sm-4 mb-3 text-center">
+                    <img src="/image/REV.png" alt="Ravenshaw Logo" class="img-thumbnail border-0"
+                        style="width: 100%; max-width: 400px; height: auto;">
+                </div>
+                <div class="col">
+                    <h4 class="text-center text-md-right text-dark">Ravenshaw University, Cuttack</h4>
+                    <h5 class="text-center text-md-right text-dark">Higher Education Department, Government of Odisha</h5>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-content-wrapper">
+            <div class="main-image-container">
+                <img src="\image\footer.jpg" alt="Ravenshaw University">
+            </div>
+            <div class="leave-management-info">
+                <h1>Leave Management for Ravenshaw University</h1>
+                <div class="d-flex justify-content-center align-items-center flex-wrap">
+                    <% if(home===1) { %>
+                        <a href="/login" class="btn btn-outline-secondary mr-md-2">Login</a>
+                        <!-- <a href="/midadminLogin" class="btn btn-outline-secondary mr-md-2"
+                            style="white-space: nowrap">MidAdmin Login</a> -->
+                        <a href="/adminLogin" class="btn btn-outline-secondary mr-md-2"
+                            style="white-space: nowrap">Admin Login</a>
+                        <% } else if(home===2) { %>
+                            <a href="/leave" class="btn btn-light mr-md-2" style="white-space: nowrap">Apply for Leave</a>
+                            <a href="/user/me" class="btn btn-outline-secondary mr-md-2">Profile</a>
+                            <a href="/logout" class="btn btn-outline-secondary mr-md-2"
+                                style="white-space: nowrap">Logout</a>
+                            <% } else { %>
+                                <a href="/admin/leave" class="btn btn-light mr-md-2"
+                                    style="white-space: nowrap">Approve for Leaves</a>
+                                <a href="/admin/users" class="btn btn-outline-secondary mr-md-2">Employees</a>
+                                <a href="/adminLogout" class="btn btn-outline-secondary mr-md-2">Logout</a>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container text-center">
+            <p class="text-light mt-3">© 2025 Ravenshaw University. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="./assets/js/jquery-3.6.0.js"></script>
+    <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
