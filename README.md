@@ -26,7 +26,7 @@ A web-based Leave Management System built with Node.js, Express, MongoDB, and EJ
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/leave-management-system.git
+git clone https://github.com/Debomitasahoo/ravenshaw-LMS.git
 cd leave-management-system
 ```
 ```
