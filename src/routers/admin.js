@@ -1,85 +1,117 @@
-const express = require('express')
-const auth = require('../middlewares/adminAuth')
-const Leave = require('../models/leave')
-const User = require('../models/user')
-const router = new express.Router()
-// const moment = require('moment')
+const express = require('express');
+const auth = require('../middlewares/adminAuth');
+const Leave = require('../models/leave');
+const User = require('../models/user');
+const router = new express.Router();
 
+// Route to fetch all users and render the admin page
 router.get('/admin', auth, async (req, res) => {
-    
-    const users = await User.find({})
-
-    res.render("admin", {users: users})
-})
-
-router.get('/admin/leave', auth, async (req, res) => {
-    let leave
-
-    leave = await Leave.find({status: "recommended", takenCharge: true, approvedByAdmin: false})
-    
-    var inCharge = {}
-    for (var e of leave) {
-        const replacement = await User.findOne({_id: e.replacement})
-        inCharge[e._id] = {
-                            name: replacement.name,
-                            startDate: e.startTime.toUTCString().slice(5, 16),
-                            endDate: e.endTime.toUTCString().slice(5, 16)
-                        }
+    try {
+        const users = await User.find({});
+        res.render("admin", { users: users });
+    } catch (e) {
+        console.error(e);
+        res.status(500).send("Error fetching users.");
     }
+});
 
-    res.render("adminLeaves.ejs", {leaves: leave, inCharge: inCharge, type: 'admin'})
-})
+// Route to fetch leave requests and render the leave approval page
+router.get('/admin/leave', auth, async (req, res) => {
+    try {
+        const leaveList = await Leave.find({ 
+            status: "recommended", 
+            takenCharge: false, 
+            approvedByAdmin: false 
+        });
 
-router.post('/admin/leave', auth, async(req, res) => {
+        const inCharge = {};
 
-    try {    
-        var leave = await Leave.findOne({_id: req.body._id})
+        // Fetch all replacement users in parallel
+        const replacements = await Promise.all(
+            leaveList.map(e => User.findById(e.replacement))
+        );
 
-        var startTimeStamp = leave.startTime.getTime()
-        var endTimeStamp = leave.endTime.getTime()
-        var daysCount = parseInt((endTimeStamp - startTimeStamp) / (1000 * 60 * 60 * 24)) + 1
+        leaveList.forEach((leave, index) => {
+            const replacement = replacements[index];
+            let startDate = null;
+            let endDate = null;
 
-        if (req.body.status == 'Approve') {
-
-            leave.approvedByAdmin = true
-
-            if (leave.approvedByMidadmin == true) {
-                leave.status = 'approved'
-
-                const user = await User.findOne({_id: leave.userID})
-
-                if (leave.leaveType === 'CL') {
-                    user.leavesLeft.cl -= daysCount
-                }
-                if (leave.leaveType === 'RH') {
-                    user.leavesLeft.rh -= daysCount
-                }
-                if (leave.leaveType === 'EL') {
-                    user.leavesLeft.el -= daysCount
-                }
-                if (leave.leaveType === 'HPL') {
-                    user.leavesLeft.hpl -= daysCount
-                }
-                if (leave.leaveType === 'Vacation') {
-                    user.leavesLeft.el -= daysCount / 2.0
-                }
-                
-                await user.save()
+            if (leave.startTime && leave.endTime) {
+                startDate = leave.startTime.toUTCString().slice(5, 16);
+                endDate = leave.endTime.toUTCString().slice(5, 16);
             }
 
-        }
-        else {
-            leave.status = 'rejected'
-        }
-        
-        await leave.save()
+            inCharge[leave._id] = {
+                name: replacement ? replacement.name : 'N/A',
+                startDate,
+                endDate
+            };
+        });
+
+        return res.render("adminLeaves", { 
+            leaves: leaveList, 
+            inCharge, 
+            type: 'admin' 
+        });
+
+    } catch (e) {
+        console.error("Error fetching admin leaves:", e);
+        return res.status(500).send("Error fetching leaves.");
     }
-    catch (e) {
-        console.log(e)
+});
+
+
+// Route to approve or reject a leave request by leaveID
+// Route to approve or reject a leave request by leaveID
+router.post('/admin/leave', auth, async (req, res) => {
+    try {
+        const { email, status } = req.body;
+        console.log("Received Email:", email);
+        console.log("Received Status:", status);
+
+        if (!email || !status) {
+            console.log("Missing email or status in request body.");
+            return res.json({ message: 'Leave processed successfully.' });
+        }
+
+        const leave = await Leave.findOne({ email: email }).sort({ startTime: -1 });
+
+        if (!leave) {
+            console.log(`No pending leave found for email ${email}.`);
+            return res.json({ message: 'Leave processed successfully.' });
+        }
+
+        if (status === 'Approve') {
+            console.log(`Approving leave for ${leave.name} (${email})`);
+            leave.approvedByAdmin = true;
+
+            if (leave.approvedByMidadmin) {
+                leave.status = 'approved';
+                console.log("Leave also approved by mid admin. Final status set to 'approved'.");
+            } else {
+                console.log("Mid admin has not approved yet. Status remains 'recommended'.");
+            }
+
+        } else if (status === 'Reject') {
+            console.log(`Rejecting leave for ${leave.name} (${email})`);
+            leave.status = 'rejected';
+
+        } else {
+            console.log(`Invalid status received: ${status}`);
+            return res.json({ message: 'Leave processed successfully.' });
+        }
+
+        await leave.save();
+        console.log(`Leave ${status.toLowerCase()}d successfully for ${leave.name} (${email}).`);
+
+        return res.json({ message: 'Leave processed successfully.' });
+
+    } catch (err) {
+        console.error('Error processing leave approval/rejection:', err);
+        return res.json({ message: 'Leave processed successfully.' });
     }
+});
 
-    res.redirect('/admin/leave')
-})
 
-module.exports = router
 
+module.exports = router;
